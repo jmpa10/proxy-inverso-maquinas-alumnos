@@ -1,0 +1,23 @@
+services:
+  nginx-proxy:
+    build: ./nginx
+    container_name: nginx-proxy
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    environment:
+      - DOMAIN=${DOMAIN}
+    depends_on:
+      - config-manager
+
+  config-manager:
+    build: ./config-manager
+    container_name: config-manager
+    volumes:
+      - ./nginx/conf.d:/output
+    environment:
+      - STUDENTS=${STUDENTS}
+      - DOMAIN=${DOMAIN}
+    command: ["python", "generate.py"]
+    restart: "no"

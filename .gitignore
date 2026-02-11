@@ -1,0 +1,10 @@
+# No subir configuraciones generadas
+bastion-proxy/nginx/conf.d/*.conf
+bastion-proxy/.env
+bastion-proxy/install-ssh-bastion.sh
+
+# Docker
+.DS_Store
+*.swp
+*.swo
+*~

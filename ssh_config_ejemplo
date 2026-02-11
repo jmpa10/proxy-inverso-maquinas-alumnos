@@ -1,0 +1,88 @@
+# Configuración SSH para Alumnos - Bastion DAW
+# Copiar este contenido a ~/.ssh/config
+
+# ════════════════════════════════════════════════════════
+# Acceso SSH sin especificar detalles
+# ════════════════════════════════════════════════════════
+# Uso: ssh alonso (en lugar de ssh alonso@servidorgp.somosdelprieto.com)
+
+Host alonso
+    HostName servidorgp.somosdelprieto.com
+    User alonso
+    ForwardAgent yes
+    ServerAliveInterval 60
+
+Host victor
+    HostName servidorgp.somosdelprieto.com
+    User victor
+    ForwardAgent yes
+    ServerAliveInterval 60
+
+Host orwin
+    HostName servidorgp.somosdelprieto.com
+    User orwin
+    ForwardAgent yes
+    ServerAliveInterval 60
+
+Host mcarmen
+    HostName servidorgp.somosdelprieto.com
+    User mcarmen
+    ForwardAgent yes
+    ServerAliveInterval 60
+
+Host mikel
+    HostName servidorgp.somosdelprieto.com
+    User mikel
+    ForwardAgent yes
+    ServerAliveInterval 60
+
+Host luismi
+    HostName servidorgp.somosdelprieto.com
+    User luismi
+    ForwardAgent yes
+    ServerAliveInterval 60
+
+Host miguel
+    HostName servidorgp.somosdelprieto.com
+    User miguel
+    ForwardAgent yes
+    ServerAliveInterval 60
+
+# ════════════════════════════════════════════════════════
+# Opciones Globales
+# ════════════════════════════════════════════════════════
+
+Host *
+    # Mantener conexión activa
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    
+    # Reutilizar conexiones
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%r@%h-%p
+    ControlPersist 600
+    
+    # Comprimir datos
+    Compression yes
+    
+    # Seguridad
+    StrictHostKeyChecking ask
+    HashKnownHosts yes
+
+# ════════════════════════════════════════════════════════
+# Instrucciones de Instalación
+# ════════════════════════════════════════════════════════
+#
+# 1. Crear directorio de sockets:
+#    mkdir -p ~/.ssh/sockets
+#
+# 2. Configurar permisos:
+#    chmod 700 ~/.ssh
+#    chmod 600 ~/.ssh/config
+#
+# 3. Ahora puedes conectar simplemente con:
+#    ssh alonso
+#
+# 4. Para copiar archivos:
+#    scp archivo.txt alonso:~/
+#    scp -r carpeta/ alonso:~/

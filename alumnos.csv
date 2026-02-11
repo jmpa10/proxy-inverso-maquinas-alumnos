@@ -1,0 +1,19 @@
+# Archivo de configuración de alumnos
+# Formato: usuario,ip
+# Una línea por alumno - puedes añadir tantos como necesites
+#
+# IMPORTANTE: 
+# - El servidor bastion solo redirige a la máquina del alumno
+# - Cada alumno usa la contraseña de su propia máquina
+# - No se manejan contraseñas en el bastion
+
+alonso,192.168.5.45
+victor,192.168.5.41
+orwin,192.168.5.43
+mcarmen,192.168.5.42
+mikel,192.168.5.46
+luismi,192.168.5.44
+miguel,192.168.5.47
+
+# Para añadir más alumnos, simplemente agrega nuevas líneas:
+# nuevo_alumno,192.168.5.XX
