@@ -6,8 +6,6 @@ services:
     network_mode: host
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
-    environment:
-      - DOMAIN=${DOMAIN}
     depends_on:
       - config-manager
 
@@ -16,8 +14,8 @@ services:
     container_name: config-manager
     volumes:
       - ./nginx/conf.d:/output
+      - ../alumnos.csv:/config/alumnos.csv:ro
     environment:
-      - STUDENTS=${STUDENTS}
-      - DOMAIN=${DOMAIN}
+      - DOMAIN=servidorgp.somosdelprieto.com
     command: ["python", "generate.py"]
     restart: "no"

@@ -3,17 +3,29 @@ import os, sys
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 
-STUDENTS = os.getenv('STUDENTS', '')
-DOMAIN = os.getenv('DOMAIN', 'dockergp.ip-ddns.com')
+CSV_FILE = Path('/config/alumnos.csv')
+DOMAIN = os.getenv('DOMAIN', 'servidorgp.somosdelprieto.com')
 OUTPUT = Path('/output')
 TEMPLATES = Path('/app/templates')
 
 def parse_students():
+    """Lee alumnos desde el archivo CSV"""
     students = {}
-    for data in STUDENTS.split(','):
-        if ':' in data.strip():
-            name, ip = data.strip().split(':')
-            students[name.strip()] = ip.strip()
+    if not CSV_FILE.exists():
+        print(f"❌ No se encuentra {CSV_FILE}")
+        return students
+    
+    with open(CSV_FILE, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            if ',' in line:
+                parts = line.split(',')
+                if len(parts) >= 2:
+                    user = parts[0].strip()
+                    ip = parts[1].strip()
+                    students[user] = ip
     return students
 
 def get_ssh_port(ip):
