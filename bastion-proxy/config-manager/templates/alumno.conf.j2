@@ -1,0 +1,19 @@
+# {{ student }} -> {{ ip }}
+# SSH: puerto {{ ssh_port }} -> {{ ip }}:22
+# HTTPS: *.{{ student }}.{{ domain }} -> {{ ip }}:443
+
+server {
+    listen 80;
+    server_name *.{{ student }}.{{ domain }};
+
+    access_log /var/log/nginx/{{ student }}.log;
+
+    location /.well-known/acme-challenge/ {
+        proxy_pass http://{{ ip }}:80;
+        proxy_set_header Host $host;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
