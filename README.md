@@ -118,7 +118,7 @@ make logs
 ### Actualizar después de cambios en GitHub
 
 ```bash
-# 1. Parar servicios
+# 1. Parar servicios y eliminar volúmenes
 make down
 
 # 2. Actualizar código
@@ -132,6 +132,7 @@ make up
 ```
 
 **⚠️ Importante**: 
+- `make down` ahora elimina volúmenes Docker para evitar conflictos
 - `make rebuild` reconstruye imágenes sin caché
 - `make up` limpia automáticamente configuraciones antiguas antes de levantar servicios
 

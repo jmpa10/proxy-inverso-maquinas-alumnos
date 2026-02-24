@@ -361,6 +361,7 @@ start_project() {
     if [ -d "${PROJECT_NAME}/nginx/conf.d" ]; then
         echo -e "${YELLOW}🧹 Limpiando configuraciones antiguas...${NC}"
         rm -rf ${PROJECT_NAME}/nginx/conf.d/*
+        rm -rf ${PROJECT_NAME}/nginx/conf.d/stream.d
         echo -e "${GREEN}✅ Directorio conf.d/ limpiado${NC}"
     else
         echo -e "${BLUE}📁 Creando directorio conf.d/...${NC}"
@@ -386,7 +387,7 @@ stop_project() {
     
     echo -e "${YELLOW}⏹️  Parando servicios...${NC}"
     cd ${PROJECT_NAME}
-    docker compose down
+    docker compose down -v
     cd ..
     echo -e "${GREEN}✅ Servicios parados${NC}"
 }
