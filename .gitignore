@@ -1,5 +1,6 @@
 # No subir configuraciones generadas
-bastion-proxy/nginx/conf.d/*.conf
+bastion-proxy/nginx/conf.d/
+!bastion-proxy/nginx/conf.d/.gitkeep
 bastion-proxy/.env
 bastion-proxy/install-ssh-bastion.sh
 

@@ -124,14 +124,16 @@ make down
 # 2. Actualizar código
 git pull
 
-# 3. Reconstruir imágenes sin caché (IMPORTANTE)
+# 3. Reconstruir imágenes sin caché
 make rebuild
 
-# 4. Levantar servicios
+# 4. Levantar servicios (limpia configs viejas automáticamente)
 make up
 ```
 
-**⚠️ Importante**: Siempre usa `make rebuild` después de `git clone` o `git pull` para asegurarte de que Docker no use imágenes antiguas en caché.
+**⚠️ Importante**: 
+- `make rebuild` reconstruye imágenes sin caché
+- `make up` limpia automáticamente configuraciones antiguas antes de levantar servicios
 
 ## �📚 Documentación
 

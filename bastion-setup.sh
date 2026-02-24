@@ -357,6 +357,16 @@ start_project() {
         exit 1
     fi
     
+    # Limpiar configuraciones viejas para evitar conflictos
+    if [ -d "${PROJECT_NAME}/nginx/conf.d" ]; then
+        echo -e "${YELLOW}🧹 Limpiando configuraciones antiguas...${NC}"
+        rm -rf ${PROJECT_NAME}/nginx/conf.d/*
+        echo -e "${GREEN}✅ Directorio conf.d/ limpiado${NC}"
+    else
+        echo -e "${BLUE}📁 Creando directorio conf.d/...${NC}"
+        mkdir -p ${PROJECT_NAME}/nginx/conf.d
+    fi
+    
     echo -e "${BLUE}🚀 Levantando servicios...${NC}"
     cd ${PROJECT_NAME}
     docker compose up -d
