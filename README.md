@@ -96,52 +96,80 @@ Ver [GUIA_ALUMNOS.md](GUIA_ALUMNOS.md) para instrucciones completas.
 
 ### Primera instalación desde GitHub
 
+> 📘 **Guía completa**: Ver [DEPLOYMENT.md](DEPLOYMENT.md) para proceso detallado con troubleshooting
+
 ```bash
 # 1. Clonar el repositorio
 git clone https://github.com/jmpa10/proxy-inverso-maquinas-alumnos
 cd proxy-inverso-maquinas-alumnos
 
-# 2. Configurar alumnos (si es necesario)
+# 2. Forzar código actualizado (evita problemas de caché)
+git fetch --all
+git reset --hard origin/main
+
+# 3. Verificar que el código es correcto
+grep "stream_dir" bastion-proxy/config-manager/generate.py
+
+# 4. Limpiar posibles residuos
+rm -rf bastion-proxy/nginx/conf.d/*
+docker rmi bastion-proxy-config-manager bastion-proxy-nginx-proxy 2>/dev/null || true
+
+# 5. Configurar alumnos (si es necesario)
 nano alumnos.csv
 
-# 3. Construir imágenes (IMPORTANTE: sin caché para evitar problemas)
+# 6. Construir imágenes sin caché
 make rebuild
 
-# 4. Levantar servicios
+# 7. Levantar servicios
 make up
 
-# 5. Verificar estado
-make status
+# 8. Verificar estado
 make logs
+make ports
+ls -la bastion-proxy/nginx/conf.d/stream.d/  # Debe existir con 2 archivos
 ```
 
 ### Actualizar después de cambios en GitHub
 
 ```bash
-# 1. Parar servicios y eliminar volúmenes
+# 1. Actualizar código
+git fetch --all
+git reset --hard origin/main
+
+# 2. Parar servicios y eliminar volúmenes
 make down
 
-# 2. Actualizar código
-git pull
+# 3. Limpiar imágenes y archivos viejos
+docker rmi bastion-proxy-config-manager bastion-proxy-nginx-proxy
+rm -rf bastion-proxy/nginx/conf.d/*
 
-# 3. Reconstruir imágenes sin caché
+# 4. Reconstruir imágenes sin caché
 make rebuild
 
-# 4. Levantar servicios (limpia configs viejas automáticamente)
+# 5. Levantar servicios
 make up
 ```
 
 **⚠️ Importante**: 
-- `make down` ahora elimina volúmenes Docker para evitar conflictos
-- `make rebuild` reconstruye imágenes sin caché
-- `make up` limpia automáticamente configuraciones antiguas antes de levantar servicios
+- Usar `git reset --hard origin/main` asegura código actualizado
+- Eliminar imágenes Docker viejas con `docker rmi` antes de rebuild
+- `make down` elimina volúmenes Docker para evitar conflictos
+- `make up` limpia automáticamente configuraciones antiguas
+
+**❌ Si encuentras errores**: Consulta [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
 
 ## �📚 Documentación
 
+### Para administradores
 - **[README.md](README.md)** (este archivo) - Introducción y guía de inicio
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - 🚀 **Guía completa de instalación en servidor** (problemas y soluciones)
+- **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - 🔧 Solución de problemas comunes
 - **[COMO_FUNCIONA.md](COMO_FUNCIONA.md)** - Explicación técnica detallada del sistema 🔍
 - **[CONFIGURACION_ROUTER.md](CONFIGURACION_ROUTER.md)** - Configurar redirecciones de puerto 🌐
 - **[ACCESO_SSH.md](ACCESO_SSH.md)** - Guía completa de acceso SSH
+- **[CHEATSHEET.md](CHEATSHEET.md)** - Comandos rápidos para administradores 🚀
+
+### Para estudiantes
 - **[GUIA_ALUMNOS.md](GUIA_ALUMNOS.md)** - Instrucciones simples para estudiantes 🎓
 - **[CHEATSHEET.md](CHEATSHEET.md)** - Comandos rápidos para administradores 🚀
 - **[ssh_config_ejemplo](ssh_config_ejemplo)** - Configuración SSH lista para usar
