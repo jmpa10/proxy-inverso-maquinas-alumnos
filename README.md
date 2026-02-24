@@ -92,7 +92,48 @@ ssh -p 2245 usuario@servidorgp.somosdelprieto.com
 
 Ver [GUIA_ALUMNOS.md](GUIA_ALUMNOS.md) para instrucciones completas.
 
-## 📚 Documentación
+## � Despliegue en Servidor
+
+### Primera instalación desde GitHub
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/jmpa10/proxy-inverso-maquinas-alumnos
+cd proxy-inverso-maquinas-alumnos
+
+# 2. Configurar alumnos (si es necesario)
+nano alumnos.csv
+
+# 3. Construir imágenes (IMPORTANTE: sin caché para evitar problemas)
+make rebuild
+
+# 4. Levantar servicios
+make up
+
+# 5. Verificar estado
+make status
+make logs
+```
+
+### Actualizar después de cambios en GitHub
+
+```bash
+# 1. Parar servicios
+make down
+
+# 2. Actualizar código
+git pull
+
+# 3. Reconstruir imágenes sin caché (IMPORTANTE)
+make rebuild
+
+# 4. Levantar servicios
+make up
+```
+
+**⚠️ Importante**: Siempre usa `make rebuild` después de `git clone` o `git pull` para asegurarte de que Docker no use imágenes antiguas en caché.
+
+## �📚 Documentación
 
 - **[README.md](README.md)** (este archivo) - Introducción y guía de inicio
 - **[COMO_FUNCIONA.md](COMO_FUNCIONA.md)** - Explicación técnica detallada del sistema 🔍
@@ -108,11 +149,13 @@ Ver [GUIA_ALUMNOS.md](GUIA_ALUMNOS.md) para instrucciones completas.
 make help           # Ver todos los comandos
 make init           # Inicializar proyecto
 make build          # Construir imágenes
+make rebuild        # Reconstruir sin caché (después de git pull)
 make up             # Levantar servicios
 make down           # Parar servicios
 make restart        # Reiniciar nginx
 make logs           # Ver logs en tiempo real
 make status         # Ver estado y puertos asignados
+make ports          # Mostrar puertos SSH por alumno
 make clean          # Limpiar proyecto completo
 ```
 

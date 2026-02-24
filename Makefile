@@ -1,4 +1,4 @@
-.PHONY: help init build up down restart logs status ports setup-bastion clean
+.PHONY: help init build rebuild up down restart logs status ports setup-bastion clean
 
 help:
 	@echo "Bastion Proxy - Gestión"
@@ -6,6 +6,7 @@ help:
 	@echo "Comandos disponibles:"
 	@echo "  make init           - Inicializar estructura del proyecto"
 	@echo "  make build          - Construir imágenes Docker"
+	@echo "  make rebuild        - Reconstruir imágenes sin caché (después de git pull)"
 	@echo "  make up             - Levantar servicios"
 	@echo "  make down           - Parar servicios"
 	@echo "  make restart        - Reiniciar nginx"
@@ -23,6 +24,10 @@ init:
 build:
 	@chmod +x ./bastion-setup.sh
 	@./bastion-setup.sh build
+
+rebuild:
+	@chmod +x ./bastion-setup.sh
+	@./bastion-setup.sh rebuild
 
 up:
 	@chmod +x ./bastion-setup.sh

@@ -337,6 +337,20 @@ build_project() {
     echo -e "${GREEN}✅ Imágenes construidas${NC}"
 }
 
+rebuild_project() {
+    if [ ! -d "${PROJECT_NAME}" ]; then
+        echo -e "${RED}❌ Proyecto no existe. Ejecuta: make init${NC}"
+        exit 1
+    fi
+    
+    echo -e "${BLUE}🔨 Reconstruyendo imágenes Docker (sin caché)...${NC}"
+    echo -e "${YELLOW}⚠️  Esto puede tardar varios minutos...${NC}"
+    cd ${PROJECT_NAME}
+    docker compose build --no-cache
+    cd ..
+    echo -e "${GREEN}✅ Imágenes reconstruidas completamente${NC}"
+}
+
 start_project() {
     if [ ! -d "${PROJECT_NAME}" ]; then
         echo -e "${RED}❌ Proyecto no existe. Ejecuta: make init${NC}"
@@ -633,6 +647,9 @@ case "$1" in
         ;;
     build)
         build_project
+        ;;
+    rebuild)
+        rebuild_project
         ;;
     up|start)
         start_project
